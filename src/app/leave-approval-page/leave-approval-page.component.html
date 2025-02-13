@@ -1,0 +1,89 @@
+<div class="p-4 bg-gray-100 min-h-screen">
+  <div class="bg-white p-4 shadow-md rounded-md max-w-5xl w-full mx-auto px-4">
+    <h2 class="text-lg font-semibold">รายการขออนุมัติการลา</h2>
+    <p class="text-gray-500">
+      รายการที่รอการอนุมัติทั้งหมด {{ leaveRequests.length }} รายการ
+    </p>
+  </div>
+
+  <div
+    *ngFor="let leaveRequest of leaveRequests"
+    class="bg-white p-4 shadow-md rounded-md mt-4 max-w-5xl w-full mx-auto px-4"
+  >
+    <div class="flex justify-between items-center">
+      <div>
+        <h3 class="text-lg font-semibold">{{ leaveRequest.user?.username }}</h3>
+        <p class="text-gray-500">{{ leaveRequest.user?.department }}</p>
+      </div>
+      <span
+        class="px-3 py-1 rounded-md text-sm"
+        [ngClass]="{
+          'bg-yellow-300 text-yellow-800': leaveRequest.status === 'PENDING',
+          'bg-green-300 text-green-800': leaveRequest.status === 'APPROVED',
+          'bg-red-300 text-red-800': leaveRequest.status === 'REJECTED'
+        }"
+      >
+        {{ leaveRequest.status | statusTranslate }}
+      </span>
+    </div>
+
+    <hr class="my-4 border-gray-300" />
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <p class="text-gray-600">ประเภทการลา</p>
+        <p class="font-medium">
+          {{ leaveRequest.leaveType?.leaveTypeName | leaveType }}
+        </p>
+      </div>
+      <div>
+        <p class="text-gray-600">จำนวนวัน</p>
+        <p class="font-medium">
+          {{
+            calculateDaysBetween(leaveRequest.startDate, leaveRequest.endDate)
+          }}
+          วัน
+        </p>
+      </div>
+      <div>
+        <p class="text-gray-600">วันที่เริ่มต้น</p>
+        <p class="font-medium">
+          {{ leaveRequest.startDate | date : "yyyy-MM-dd" }}
+        </p>
+      </div>
+      <div>
+        <p class="text-gray-600">วันที่สิ้นสุด</p>
+        <p class="font-medium">
+          {{ leaveRequest.endDate | date : "yyyy-MM-dd" }}
+        </p>
+      </div>
+      <div class="col-span-2">
+        <p class="text-gray-600">เหตุผลการลา</p>
+        <p class="font-medium">{{ leaveRequest.reason }}</p>
+      </div>
+    </div>
+
+    <div class="mt-4">
+      <p class="text-gray-600"><i class="far fa-comment"></i> ความคิดเห็น</p>
+      <textarea
+        class="w-full p-2 border rounded-md"
+        placeholder="เพิ่มความคิดเห็น (ถ้ามี)"
+      ></textarea>
+    </div>
+
+    <div class="flex justify-end mt-4 gap-2">
+      <button
+        (click)="updateStatus(leaveRequest.id, 'REJECTED')"
+        class="bg-red-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
+      >
+        <i class="fas fa-times"></i> ไม่อนุมัติ
+      </button>
+      <button
+        (click)="updateStatus(leaveRequest.id, 'APPROVED')"
+        class="bg-green-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
+      >
+        <i class="fas fa-check"></i> อนุมัติ
+      </button>
+    </div>
+  </div>
+</div>

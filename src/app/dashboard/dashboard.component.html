@@ -1,0 +1,85 @@
+<div class="p-6 bg-gray-100 min-h-screen">
+  
+  <div class="bg-white p-6 shadow-md rounded-md max-w-5xl mx-auto mb-6">
+    <div class="flex items-center">
+      <mat-icon class="text-blue-500">event</mat-icon>
+      <div class="ml-3">
+        <p class="text-sm text-gray-500">วันลาคงเหลือ</p>
+        <p class="text-2xl font-bold">10 วัน</p>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div class="bg-white p-6 shadow-md rounded-md max-w-5xl mx-auto mb-6">
+    <div class="flex items-center">
+      <mat-icon class="text-green-500">pending_actions</mat-icon>
+      <div class="ml-3">
+        <p class="text-sm text-gray-500">ลาที่รออนุมัติ</p>
+        <p class="text-2xl font-bold">{{ leaveRequests.length }} รายการ</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="bg-white p-6 shadow-md rounded-md max-w-5xl mx-auto mb-6">
+    <div class="flex items-center">
+      <mat-icon class="text-purple-500">article</mat-icon>
+      <div class="ml-3">
+        <p class="text-sm text-gray-500">ลาทั้งหมดปีนี้</p>
+        <p class="text-2xl font-bold">15 วัน</p>
+      </div>
+    </div>
+  </div>
+
+ 
+  <div class="bg-white p-6 shadow-md rounded-md max-w-5xl mx-auto">
+    <h2 class="text-lg font-semibold mb-4">รายการลาล่าสุด</h2>
+    <table class="w-full border-collapse border border-gray-200">
+      <thead class="text-left">
+        <tr class="bg-gray-100">
+          <th class="p-2 border border-gray-200">วันที่</th>
+          <th class="p-2 border border-gray-200">ประเภท</th>
+          <th class="p-2 border border-gray-200">จำนวนวัน</th>
+          <th class="p-2 border border-gray-200">สถานะ</th>
+        </tr>
+      </thead>
+      <tbody >
+        <tr *ngFor="let leaveRequest of leaveRequests">
+          <td class="p-2 border border-gray-200">
+            <ng-container 
+              *ngIf="
+                leaveRequest.startDate === leaveRequest.endDate;
+                else rangeDate
+              "
+            >
+              {{ leaveRequest.startDate | date : "d MMM yyyy" }}
+            </ng-container>
+            <ng-template #rangeDate>
+              {{ leaveRequest.startDate?.toString() | date : "d" }}-{{
+                leaveRequest.endDate?.toString() | date : "d MMM yyyy"
+              }}
+            </ng-template>
+          </td>
+          <td class="p-2 border border-gray-200">
+            {{ leaveRequest.leaveType?.leaveTypeName |leaveType}}
+          </td>
+          <td class="p-2 border border-gray-200">
+            {{ calculateDaysBetween(leaveRequest.startDate, leaveRequest.endDate) }} วัน
+          </td>
+          <td class="p-2 border border-gray-200">
+            <span
+              class="px-3 py-1 rounded-lg text-white"
+              [ngClass]="{
+                'bg-yellow-400': leaveRequest.status === 'PENDING',
+                'bg-green-500': leaveRequest.status === 'APPROVED',
+                'bg-red-500': leaveRequest.status === 'REJECTED'
+              }"
+            >
+              {{ leaveRequest.status | statusTranslate }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
