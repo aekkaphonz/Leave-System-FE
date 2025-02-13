@@ -56,7 +56,7 @@
             </ng-container>
             <ng-template #rangeDate>
               {{ leaveRequest.startDate?.toString() | date : "d" }}-{{
-                leaveRequest.endDate?.toString() | date : "d MMM yyyy"
+                leaveRequest.endDate?.toString() | date : "d MMM yyyy" |thaiMonth
               }}
             </ng-template>
           </td>
