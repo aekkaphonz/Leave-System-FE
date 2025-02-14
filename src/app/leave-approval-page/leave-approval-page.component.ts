@@ -38,8 +38,8 @@ export class LeaveApprovalPageComponent implements OnInit {
   constructor(public leaveService: LeaveService) {}
  
   leaveRequests: any[] = [];
-  private UpdateUrl = 'http://localhost:8080/api/leave-requests';
-  private GetUrl = 'http://localhost:8080/api/leave-requests';
+   UpdateUrl = 'http://localhost:8080/api/leave-requests';
+   GetUrl = 'http://localhost:8080/api/leave-requests';
   
   ngOnInit(): void {
     this.fetchLeaveRequests();

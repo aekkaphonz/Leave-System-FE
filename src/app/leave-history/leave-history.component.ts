@@ -41,7 +41,7 @@ export class LeaveHistoryComponent implements OnInit {
   };
   selectedMonth: Date | null = null;
   selectedDepartment: string = '';
-  private GetUrl = 'http://localhost:8080/api/leave-requests';
+   GetUrl = 'http://localhost:8080/api/leave-requests';
 
   ngOnInit(): void {
     this.fetchLeaveRequests();
