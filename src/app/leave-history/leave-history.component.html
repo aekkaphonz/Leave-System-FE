@@ -1,88 +1,107 @@
-<div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6 mt-5">
-  <div class="flex items-center justify-between">
-    <div>
-      <h1 class="text-2xl font-semibold">สถิติการลาประจำเดือน</h1>
-      <p class="text-gray-600">ข้อมูลการลาของพนักงานทั้งหมด</p>
-    </div>
-    <button
-      class="bg-green-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
-    >
-      <i class="fa-solid fa-download"></i> Export Excel
-    </button>
-  </div>
-</div>
-
-<div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6">
-  <div>
-    <label class="block font-medium text-gray-700">เลือกเดือน</label>
-    <div class="flex items-center border rounded-md p-2 mt-1 bg-white">
-      <input
-        matInput
-        [matDatepicker]="startDate"
-        name="startDate"
-        class="w-full outline-none"
-        placeholder="mm/dd/yyyy"
-      />
-      <mat-datepicker-toggle
-        matSuffix
-        [for]="startDate"
-      ></mat-datepicker-toggle>
-      <mat-datepicker #startDate></mat-datepicker>
-    </div>
-  </div>
-
-  <div class="mt-4 max-w-5xl mx-auto mb-6">
-    <label class="block font-medium text-gray-700">แผนก</label>
-    <select name="department" class="border p-2 rounded-md w-full">
-      <option value="">เลือกแผนก</option>
-      <option
-        *ngFor="let department of getUniqueDepartments()"
-        [value]="department"
+<div class="bg-gray-100 min-h-screen p-6">
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6 mt-5">
+    <div class="flex items-center justify-between">
+      <div>
+        <h1 class="text-2xl font-semibold">สถิติการลาประจำเดือน</h1>
+        <p class="text-gray-600">ข้อมูลการลาของพนักงานทั้งหมด</p>
+      </div>
+      <button
+        class="bg-green-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
+        (click)="exportToExcel()"
       >
-        {{ department }}
-      </option>
-    </select>
+        <i class="fa-solid fa-download"></i> Export Excel
+      </button>
+    </div>
   </div>
-</div>
 
-<div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6">
-  <h2 class="text-lg font-semibold mb-4">สรุปการลาแยกตามประเภท</h2>
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6">
+    <div>
+      <label class="block font-medium text-gray-700">เลือกเดือน</label>
+      <div class="flex items-center border rounded-md p-2 mt-1 bg-white">
+        <input
+          matInput
+          [matDatepicker]="monthPicker"
+          name="startDate"
+          class="w-full outline-none"
+          placeholder="เลือกเดือน"
+          [value]="selectedMonth ? (selectedMonth | date : 'MMMM yyyy') : ''"
+          readonly
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="monthPicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker
+          #monthPicker
+          startView="year"
+          (monthSelected)="setMonth($event)"
+          panelClass="custom-datepicker"
+        ></mat-datepicker>
+      </div>
+    </div>
 
-  <canvas id="leaveChart"></canvas>
-</div>
+    <div class="mt-4">
+      <label class="block font-medium text-gray-700">แผนก</label>
+      <div class="flex items-center border rounded-md p-2 mt-1 bg-white">
+        <i class="fa-solid fa-filter text-gray-500"></i>
+        <select
+          name="department"
+          class="border-0 outline-none w-full pl-2 bg-transparent"
+          [(ngModel)]="selectedDepartment"
+          (change)="getDepartment()"
+        >
+          <option value="">ทั้งหมด</option>
+          <option
+            *ngFor="let department of getUserDepartments()"
+            [value]="department"
+          >
+            {{ department }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
 
-<div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6">
-  <h2 class="text-lg font-semibold mb-4">รายละเอียดการลารายบุคคล</h2>
-  <table class="w-full border-collapse border border-gray-200">
-    <thead class="text-left">
-      <tr class="bg-gray-100">
-        <th class="p-2 border border-gray-200">ชื่อ-นามสกุล</th>
-        <th class="p-2 border border-gray-200">แผนก</th>
-        <th class="p-2 border border-gray-200">ลาป่วย</th>
-        <th class="p-2 border border-gray-200">ลาพักร้อน</th>
-        <th class="p-2 border border-gray-200">ลากิจ</th>
-        <th class="p-2 border border-gray-200">รวม</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let leaveRequest of leaveRequests">
-        <td class="p-2 border border-gray-200">
-          {{ leaveRequest.user?.username }}
-        </td>
-        <td class="p-2 border border-gray-200">
-          {{ leaveRequest.user?.department }}
-        </td>
-        <td class="p-2 border border-gray-200">{{ leaveRequest.sickLeave }}</td>
-        <td class="p-2 border border-gray-200">
-          {{ leaveRequest.annualLeave }}
-        </td>
-        <td class="p-2 border border-gray-200">
-          {{ leaveRequest.personalLeave }}
-        </td>
-        <td class="p-2 border border-gray-200">
-          {{ leaveRequest.totalLeave }}
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6">
+    <h2 class="text-lg font-semibold mb-4">สรุปการลาแยกตามประเภท</h2>
+    <canvas id="leaveChart"></canvas>
+  </div>
+
+  <div class="bg-white p-6 rounded-lg shadow-lg max-w-5xl mx-auto mb-6">
+    <h2 class="text-lg font-semibold mb-4">รายละเอียดการลารายบุคคล</h2>
+    <table class="w-full border-collapse border border-gray-200">
+      <thead class="text-left">
+        <tr class="bg-gray-100">
+          <th class="p-2 border border-gray-200">ชื่อ-นามสกุล</th>
+          <th class="p-2 border border-gray-200">แผนก</th>
+          <th class="p-2 border border-gray-200">ลาป่วย</th>
+          <th class="p-2 border border-gray-200">ลาพักร้อน</th>
+          <th class="p-2 border border-gray-200">ลากิจ</th>
+          <th class="p-2 border border-gray-200">รวม</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let leaveRequest of getDepartment()">
+          <td class="p-2 border border-gray-200">
+            {{ leaveRequest.user?.username }}
+          </td>
+          <td class="p-2 border border-gray-200">
+            {{ leaveRequest.user?.department }}
+          </td>
+          <td class="p-2 border border-gray-200">
+            {{ leaveRequest.sickLeave }}
+          </td>
+          <td class="p-2 border border-gray-200">
+            {{ leaveRequest.annualLeave }}
+          </td>
+          <td class="p-2 border border-gray-200">
+            {{ leaveRequest.personalLeave }}
+          </td>
+          <td class="p-2 border border-gray-200">
+            {{ leaveRequest.totalLeave }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>

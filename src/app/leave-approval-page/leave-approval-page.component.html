@@ -39,12 +39,10 @@
       <div>
         <p class="text-gray-600">จำนวนวัน</p>
         <p class="font-medium">
-          {{
-            calculateDaysBetween(leaveRequest.startDate, leaveRequest.endDate)
-          }}
-          วัน
+          {{ leaveService.calculateDays(leaveRequest.startDate, leaveRequest.endDate) }} วัน
         </p>
       </div>
+      
       <div>
         <p class="text-gray-600">วันที่เริ่มต้น</p>
         <p class="font-medium">

@@ -14,6 +14,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { StatusTranslatePipe } from '../pipes/status-translate.pipe';
 import { ThaiMonthPipe } from '../pipes/ThaiMonthPipe';
 import { LeaveTypePipe } from '../pipes/leave-type.pipe';
+import { LeaveService } from '../services/leave.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -37,9 +38,10 @@ import { LeaveTypePipe } from '../pipes/leave-type.pipe';
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  leaveRequests: any[] = [];
 
-  constructor() {}
+
+  constructor(public leaveService: LeaveService) {}
+  leaveRequests: any[] = [];
 
   ngOnInit(): void {
     this.fetchLeaveRequests();
@@ -55,15 +57,5 @@ export class DashboardComponent implements OnInit {
       .catch((error) => {
         console.error('Error fetching leave requests:', error);
       });
-  }
-
-  
-
-  calculateDaysBetween(startDate: string, endDate: string): number {
-    if (!startDate || !endDate) return 0;
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const timeDiff = end.getTime() - start.getTime();
-    return Math.max(timeDiff / (1000 * 60 * 60 * 24) + 1, 0);
   }
 }

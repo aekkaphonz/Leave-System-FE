@@ -12,6 +12,7 @@ import axios from 'axios';
 import { MatGridListModule, MatGridTile } from '@angular/material/grid-list';
 import { StatusTranslatePipe } from '../pipes/status-translate.pipe';
 import { LeaveTypePipe } from '../pipes/leave-type.pipe';
+import { LeaveService } from '../services/leave.service';
 @Component({
   selector: 'app-leave-approval-page',
   standalone: true,
@@ -26,7 +27,6 @@ import { LeaveTypePipe } from '../pipes/leave-type.pipe';
     FormsModule,
     CommonModule,
     MatGridListModule,
-    MatGridTile,
     StatusTranslatePipe,
     LeaveTypePipe,
   ],
@@ -35,11 +35,12 @@ import { LeaveTypePipe } from '../pipes/leave-type.pipe';
   styleUrl: './leave-approval-page.component.css',
 })
 export class LeaveApprovalPageComponent implements OnInit {
+  constructor(public leaveService: LeaveService) {}
+ 
   leaveRequests: any[] = [];
-  constructor() {}
-
   private UpdateUrl = 'http://localhost:8080/api/leave-requests';
   private GetUrl = 'http://localhost:8080/api/leave-requests';
+  
   ngOnInit(): void {
     this.fetchLeaveRequests();
   }
@@ -49,7 +50,7 @@ export class LeaveApprovalPageComponent implements OnInit {
       .get(`${this.GetUrl}`)
       .then((response) => {
         this.leaveRequests = response.data;
-        console.log(' ข้อมูลจาก API:', this.leaveRequests);
+        console.log('API:', this.leaveRequests);
       })
       .catch((error) => {
         console.error('Error fetching leave requests:', error);
@@ -69,11 +70,5 @@ export class LeaveApprovalPageComponent implements OnInit {
   }
 
 
-  calculateDaysBetween(startDate: string, endDate: string): number {
-    if (!startDate || !endDate) return 0;
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    const timeDiff = end.getTime() - start.getTime();
-    return Math.max(timeDiff / (1000 * 60 * 60 * 24) + 1, 0);
-  }
+  
 }

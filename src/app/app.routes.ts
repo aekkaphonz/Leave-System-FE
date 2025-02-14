@@ -19,7 +19,7 @@ export const routes: Routes = [
         component:LeaveRequestFormComponent
     },
     {
-        path:"leavestatus",
+        path:"leave-status",
         component:LeaveApprovalPageComponent
     },
     {

@@ -64,7 +64,7 @@
             {{ leaveRequest.leaveType?.leaveTypeName |leaveType}}
           </td>
           <td class="p-2 border border-gray-200">
-            {{ calculateDaysBetween(leaveRequest.startDate, leaveRequest.endDate) }} วัน
+            {{ leaveService.calculateDays(leaveRequest.startDate, leaveRequest.endDate) }} วัน
           </td>
           <td class="p-2 border border-gray-200">
             <span

@@ -10,7 +10,7 @@ export class LeaveTypePipe implements PipeTransform {
     const leaveTypeMap: { [key: string]: string } = {
       'ANNUAL_LEAVE': 'ลาพักร้อน',
       'SICK_LEAVE': 'ลาป่วย',
-      'PERSONAL_LEAVE': 'ลากิจส่วนตัว',
+      'PERSONAL_LEAVE': 'ลากิจ',
     };
 
     return leaveTypeMap[value] || 'ไม่ทราบประเภทการลา';
