@@ -45,16 +45,14 @@ export class LeaveApprovalPageComponent implements OnInit {
     this.fetchLeaveRequests();
   }
 
-  fetchLeaveRequests(): void {
-    axios
-      .get(`${this.GetUrl}`)
-      .then((response) => {
-        this.leaveRequests = response.data;
-        console.log('API:', this.leaveRequests);
-      })
-      .catch((error) => {
-        console.error('Error fetching leave requests:', error);
-      });
+  async fetchLeaveRequests(): Promise<void> {
+    try {
+      const response = await axios.get(`${this.GetUrl}`);
+      this.leaveRequests = response.data;
+      console.log('API:', this.leaveRequests);
+    } catch (error) {
+      console.error('Error fetching leave requests:', error);
+    }
   }
 
   async updateStatus(requestId: number, newStatus: string) {

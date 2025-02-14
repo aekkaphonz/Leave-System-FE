@@ -46,24 +46,21 @@ export class LeaveHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.fetchLeaveRequests();
   }
-
-  fetchLeaveRequests(): void {
-    axios
-      .get(`${this.GetUrl}`)
-      .then((response) => {
-        this.leaveRequests = this.sumLeaveRequests(response.data);
-        console.log(this.leaveRequests);
-        this.calculateLeaveSum();
-
-        setTimeout(() => {
-          this.createLeaveChart();
-        }, 500);
-      })
-      .catch((error) => {
-        console.error('Error fetching leave requests:', error);
-      });
+  async fetchLeaveRequests(): Promise<void> {
+    try {
+      const response = await axios.get(`${this.GetUrl}`);
+      this.leaveRequests = this.sumLeaveRequests(response.data);
+      console.log(this.leaveRequests);
+      this.calculateLeaveSum();
+  
+      setTimeout(() => {
+        this.createLeaveChart();
+      }, 500);
+    } catch (error) {
+      console.error('Error fetching leave requests:', error);
+    }
   }
-
+  
   calculateLeaveSum(): void {
     this.leaveSum = {
       sickLeave: this.leaveRequests.reduce(
