@@ -6,11 +6,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
-import { CommonModule } from '@angular/common'; 
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { LeaveTypePipe } from '../pipes/leave-type.pipe';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-leave-request-form',
   standalone: true,
@@ -24,7 +23,6 @@ import axios from 'axios';
     MatNativeDateModule,
     FormsModule,
     CommonModule,
-    
   ],
   templateUrl: './leave-request-form.component.html',
   styleUrl: './leave-request-form.component.css',
@@ -34,41 +32,49 @@ export class LeaveRequestFormComponent {
     leaveType: '',
     startDate: '',
     endDate: '',
-    reason: ''
+    reason: '',
   };
+
+  formatDate(date: any): string {
+    if (!date) return '';
+    const d = new Date(date);
+    return d.toLocaleDateString('sv-SE');
+  }
 
   PostUrl = 'http://localhost:8080/api/leave-requests';
 
   async submitLeaveRequest() {
-    const mockUser = { 
-      id: 1, 
-      username: 'เอกพล แก้วก้อนน้อย', 
-      email: 'testuser@example.com', 
-      department: 'Intern' 
+    const leaveRequest = {
+      user: { id: 1 },
+      leaveType: { id: this.leaveRequest.leaveType },
+      startDate: this.formatDate(this.leaveRequest.startDate),
+      endDate: this.formatDate(this.leaveRequest.endDate),
+      reason: this.leaveRequest.reason,
     };
 
-    const mockLeaveType = { 
-      id: 1, 
-      leaveTypeName: 'ANNUAL_LEAVE', 
-      description: 'ไปเที่ยว', 
-      maxDays: 15 
-    };
-
-    const request = {
-      user: mockUser,
-      leaveType: mockLeaveType,
-      startDate: this.leaveRequest.startDate,
-      endDate: this.leaveRequest.endDate,
-      reason: this.leaveRequest.reason
-    };
+    console.log('Debug Request:', leaveRequest);
 
     try {
-      
-      const response = await axios.post(`${this.PostUrl}`, request);
-      console.log('ส่งข้อมูลได้:', response.data);
+      const response = await axios.post(`${this.PostUrl}`, leaveRequest, {
+        headers: { 'Content-Type': 'application/json' },
+      });
+      console.log(' ส่งข้อมูลสำเร็จ:', response.data);
+      Swal.fire({
+        title: 'ส่งฟอร์มลาสำเร็จ!',
+        text: 'คำขอลาของคุณถูกส่งแล้ว โปรดรอการอนุมัติ',
+        icon: 'success',
+        confirmButtonText: 'ตกลง',
+        confirmButtonColor: '#77bfa3',
+      });
     } catch (error) {
-      console.error('ส่งข้อมูลไม่ได้:', error);
+      console.error(' เกิดข้อผิดพลาด:', error);
+      Swal.fire({
+        title: 'เกิดข้อผิดพลาด!',
+        text: 'ไม่สามารถส่งคำขอลาได้ กรุณาลองใหม่',
+        icon: 'error',
+        confirmButtonText: 'ลองอีกครั้ง',
+        confirmButtonColor: '#d33',
+      });
     }
   }
-  
 }

@@ -56,4 +56,6 @@ export class DashboardComponent implements OnInit {
       console.error('Error fetching leave requests:', error);
     }
   }
+
+  
 }

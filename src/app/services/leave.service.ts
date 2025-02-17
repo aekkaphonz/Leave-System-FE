@@ -14,5 +14,6 @@ export class LeaveService {
     const timeDiff = end.getTime() - start.getTime();
     return Math.max(timeDiff / (1000 * 60 * 60 * 24) + 1, 0);
   }
+
   
 }
