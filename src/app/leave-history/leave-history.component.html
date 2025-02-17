@@ -21,21 +21,23 @@
         <input
           matInput
           [matDatepicker]="monthPicker"
+          [(ngModel)]="selectedMonth"
           name="startDate"
           class="w-full outline-none"
           placeholder="เลือกเดือน"
-          [value]="selectedMonth ? (selectedMonth | date : 'MMMM yyyy') : ''"
           readonly
         />
+
         <mat-datepicker-toggle
           matSuffix
           [for]="monthPicker"
         ></mat-datepicker-toggle>
+
         <mat-datepicker
           #monthPicker
-          startView="year"
-          (monthSelected)="setMonth($event)"
-          panelClass="custom-datepicker"
+          startView="multi-year"
+          panelClass="month-picker"
+          (monthSelected)="setMonth($event, monthPicker)"
         ></mat-datepicker>
       </div>
     </div>

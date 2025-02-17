@@ -3,7 +3,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import {
+  MatDatepicker,
+  MatDatepickerModule,
+} from '@angular/material/datepicker';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CommonModule } from '@angular/common';
@@ -39,9 +42,11 @@ export class LeaveHistoryComponent implements OnInit {
     annualLeave: 0,
     personalLeave: 0,
   };
+  chartInstance: any;
   selectedMonth: Date | null = null;
+
   selectedDepartment: string = '';
-   GetUrl = 'http://localhost:8080/api/leave-requests';
+  GetUrl = 'http://localhost:8080/api/leave-requests';
 
   ngOnInit(): void {
     this.fetchLeaveRequests();
@@ -49,18 +54,30 @@ export class LeaveHistoryComponent implements OnInit {
   async fetchLeaveRequests(): Promise<void> {
     try {
       const response = await axios.get(`${this.GetUrl}`);
-      this.leaveRequests = this.sumLeaveRequests(response.data);
-      console.log(this.leaveRequests);
+      let leaveData = response.data;
+
+      if (this.selectedMonth) {
+        const selectedYear = this.selectedMonth.getFullYear();
+        const selectedMonth = this.selectedMonth.getMonth() + 1;
+
+        leaveData = leaveData.filter((req: any) => {
+          const startDate = new Date(req.startDate);
+          return (
+            startDate.getFullYear() === selectedYear &&
+            startDate.getMonth() + 1 === selectedMonth
+          );
+        });
+      }
+
+      this.leaveRequests = this.sumLeaveRequests(leaveData);
       this.calculateLeaveSum();
-  
-      setTimeout(() => {
-        this.createLeaveChart();
-      }, 500);
+
+      this.createLeaveChart();
     } catch (error) {
       console.error('Error fetching leave requests:', error);
     }
   }
-  
+
   calculateLeaveSum(): void {
     this.leaveSum = {
       sickLeave: this.leaveRequests.reduce(
@@ -136,13 +153,18 @@ export class LeaveHistoryComponent implements OnInit {
 
   createLeaveChart(): void {
     const ctx = document.getElementById('leaveChart') as HTMLCanvasElement;
-    new Chart(ctx, {
+
+    if (this.chartInstance) {
+      this.chartInstance.destroy();
+    }
+
+    this.chartInstance = new Chart(ctx, {
       type: 'bar',
       data: {
         labels: ['ลาป่วย', 'ลาพักร้อน', 'ลากิจ'],
         datasets: [
           {
-            label: '',
+            label: 'จำนวนวันลา',
             data: [
               this.leaveSum.sickLeave,
               this.leaveSum.annualLeave,
@@ -158,6 +180,11 @@ export class LeaveHistoryComponent implements OnInit {
         plugins: {
           legend: {
             display: false,
+          },
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
           },
         },
       },
@@ -192,12 +219,10 @@ export class LeaveHistoryComponent implements OnInit {
     saveAs(data, 'leave_report.xlsx');
   }
 
-  setMonth(event: Date) {
-    this.selectedMonth = event;
-    console.log(
-      'เลือกเดือน:',
-      event.toLocaleString('th-TH', { month: 'long', year: 'numeric' })
-    );
+  setMonth(event: Date, picker: MatDatepicker<Date>) {
+    this.selectedMonth = new Date(event.getFullYear(), event.getMonth(), 1);
+    picker.close();
+    this.fetchLeaveRequests();
   }
 
   getDepartment(): any[] {
