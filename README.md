@@ -1,27 +1,60 @@
-# LeaveSystem
+# LeaveSystem (Angular)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.14.
+## ข้อมูลระบบ
+- **Angular CLI**: 18.2.14
+- **Node.js**: 18.20.4
 
-## Development server
+## การติดตั้ง
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. **โคลนโปรเจกต์ไปยังเครื่องของคุณ**:
 
-## Code scaffolding
+   ```bash
+   git clone https://github.com/aekkaphonz/Leave-System-Front.git
+   ```
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. **เข้าไปยังโฟลเดอร์ของโปรเจกต์**:
 
-## Build
+   ```bash
+   cd Leave-System-Front
+   ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+3. **ติดตั้ง dependencies**:
 
-## Running unit tests
+   ```bash
+   npm install
+   ```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## การรันแอปพลิเคชัน
 
-## Running end-to-end tests
+1. **เริ่มต้นเซิร์ฟเวอร์สำหรับการพัฒนา**:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+   ```bash
+   ng serve
+   ```
 
-## Further help
+2. **เปิดเบราว์เซอร์และไปที่**:
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+   ```
+   http://localhost:4200
+   ```
+
+## การสร้างเวอร์ชันสำหรับการผลิต
+
+1. **สร้างแอปพลิเคชันสำหรับการผลิต**:
+
+   ```bash
+   ng build
+   ```
+
+
+## เอกสารแนะนำ
+- **Angular 18 Full Course** [Watch Here](https://youtu.be/QjaNv7s1gW0?si=-Jrg__5oEml7GMGn)
+- **Angular Material** [Click Here](https://material.angular.io/)
+- **Spring Data JPA Pagination with Angular** [Click Here](https://youtu.be/JNxWZXOsU0w?si=sMvwiDIFAg1Z3PSx)
+## Sitemap
+- **ระบบการลา**
+  - หน้าแดชบอร์ด
+  - หน้าส่งคำขอลา
+  - หน้าประวัติการลา
+  - หน้าจัดการคำขอลา (สำหรับผู้ดูแลระบบ)
+
