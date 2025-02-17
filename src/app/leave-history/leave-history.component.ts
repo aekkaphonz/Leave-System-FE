@@ -56,7 +56,7 @@ export class LeaveHistoryComponent implements OnInit {
       const response = await axios.get(`${this.GetUrl}`);
       let leaveData = response.data;
   
-      // กรองข้อมูลตามเดือนที่เลือก
+     
       if (this.selectedMonth) {
         const selectedYear = this.selectedMonth.getFullYear();
         const selectedMonth = this.selectedMonth.getMonth() + 1;
