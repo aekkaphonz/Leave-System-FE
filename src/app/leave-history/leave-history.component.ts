@@ -55,11 +55,12 @@ export class LeaveHistoryComponent implements OnInit {
     try {
       const response = await axios.get(`${this.GetUrl}`);
       let leaveData = response.data;
-
+  
+      // กรองข้อมูลตามเดือนที่เลือก
       if (this.selectedMonth) {
         const selectedYear = this.selectedMonth.getFullYear();
         const selectedMonth = this.selectedMonth.getMonth() + 1;
-
+  
         leaveData = leaveData.filter((req: any) => {
           const startDate = new Date(req.startDate);
           return (
@@ -68,15 +69,18 @@ export class LeaveHistoryComponent implements OnInit {
           );
         });
       }
-
+  
+      leaveData = leaveData.filter((req: any) => req.status === 'APPROVED');
+  
       this.leaveRequests = this.sumLeaveRequests(leaveData);
       this.calculateLeaveSum();
-
+  
       this.createLeaveChart();
     } catch (error) {
       console.error('Error fetching leave requests:', error);
     }
   }
+  
 
   calculateLeaveSum(): void {
     this.leaveSum = {

@@ -7,44 +7,78 @@
 
     <div *ngIf="leaveTypes.length > 0" class="mb-4">
       <label class="block font-medium text-gray-700">ประเภทการลา</label>
-      <select [(ngModel)]="leaveRequest.leaveType" name="leaveType" class="w-full border rounded-md p-2 mt-1 bg-white">
+      <select
+        [(ngModel)]="leaveRequest.leaveType"
+        name="leaveType"
+        class="w-full border rounded-md p-2 mt-1 bg-white"
+      >
         <option value="">เลือกประเภทการลา</option>
         <option *ngFor="let leaveType of leaveTypes" [value]="leaveType.id">
-          {{ leaveType.leaveTypeName |leaveType}}
+          {{ leaveType.leaveTypeName | leaveType }}
         </option>
       </select>
     </div>
 
-   <div class="grid grid-cols-2 gap-4 mb-4">
-  <div>
-    <label class="block font-medium text-gray-700">วันที่เริ่มต้น</label>
-    <div class="flex items-center border rounded-md p-2 mt-1 bg-white">
-      <input matInput [(ngModel)]="leaveRequest.startDate" [matDatepicker]="startDate" name="startDate" class="w-full outline-none" placeholder="เลือกวันที่" />
-      <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
-      <mat-datepicker #startDate></mat-datepicker>
-    </div>
-  </div>
+    <div class="grid grid-cols-2 gap-4 mb-4">
+      <div>
+        <label class="block font-medium text-gray-700">วันที่เริ่มต้น</label>
+        <div class="flex items-center border rounded-md p-2 mt-1 bg-white">
+          <input
+            matInput
+            [(ngModel)]="leaveRequest.startDate"
+            [matDatepicker]="startDate"
+            name="startDate"
+            class="w-full outline-none"
+            placeholder="เลือกวันที่"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="startDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #startDate></mat-datepicker>
+        </div>
+      </div>
 
-  <div>
-    <label class="block font-medium text-gray-700">วันที่สิ้นสุด</label>
-    <div class="flex items-center border rounded-md p-2 mt-1 bg-white">
-      <input matInput [(ngModel)]="leaveRequest.endDate" [matDatepicker]="endDate" name="endDate" class="w-full outline-none" placeholder="เลือกวันที่" />
-      <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
-      <mat-datepicker #endDate></mat-datepicker>
+      <div>
+        <label class="block font-medium text-gray-700">วันที่สิ้นสุด</label>
+        <div class="flex items-center border rounded-md p-2 mt-1 bg-white">
+          <input
+            matInput
+            [(ngModel)]="leaveRequest.endDate"
+            [matDatepicker]="endDate"
+            name="endDate"
+            class="w-full outline-none"
+            placeholder="เลือกวันที่"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="endDate"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #endDate></mat-datepicker>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
 
     <div class="mb-4">
       <label class="block font-medium text-gray-700">เหตุผลการลา</label>
-      <textarea [(ngModel)]="leaveRequest.reason" name="reason" class="w-full border rounded-md p-2 mt-1 h-24 resize-none"></textarea>
+      <textarea
+        [(ngModel)]="leaveRequest.reason"
+        name="reason"
+        class="w-full border rounded-md p-2 mt-1 h-24 resize-none"
+      ></textarea>
     </div>
 
     <div class="flex justify-end gap-2">
-      <button class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md flex items-center gap-2" >
+      <button
+        class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md flex items-center gap-2"
+        (click)="resetForm()"
+      >
         <i class="fas fa-times"></i> ยกเลิก
       </button>
-      <button class="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2" (click)="submitLeaveRequest()">
+      <button
+        class="bg-blue-500 text-white px-4 py-2 rounded-md flex items-center gap-2"
+        (click)="submitLeaveRequest()"
+      >
         <i class="fas fa-check"></i> ส่งคำขอลา
       </button>
     </div>

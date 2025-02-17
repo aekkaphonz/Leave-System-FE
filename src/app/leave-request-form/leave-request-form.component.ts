@@ -63,7 +63,7 @@ export class LeaveRequestFormComponent implements OnInit{
 
   async submitLeaveRequest() {
     const leaveRequest = {
-      user: { id: 1 },
+      user: { id: 2 },
       leaveType: { id: this.leaveRequest.leaveType },
       startDate: this.formatDate(this.leaveRequest.startDate),
       endDate: this.formatDate(this.leaveRequest.endDate),
@@ -100,4 +100,13 @@ export class LeaveRequestFormComponent implements OnInit{
     const d = new Date(date);
     return d.toLocaleDateString('sv-SE');
   }
+  resetForm(): void {
+    this.leaveRequest = {
+      leaveType: '',
+      startDate: '',
+      endDate: '',
+      reason: '',
+    };
+  }
+  
 }
