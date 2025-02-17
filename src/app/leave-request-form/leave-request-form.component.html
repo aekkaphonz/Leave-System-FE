@@ -5,13 +5,13 @@
       แบบฟอร์มขอลางาน
     </div>
 
-    <div class="mb-4">
+    <div *ngIf="leaveTypes.length > 0" class="mb-4">
       <label class="block font-medium text-gray-700">ประเภทการลา</label>
       <select [(ngModel)]="leaveRequest.leaveType" name="leaveType" class="w-full border rounded-md p-2 mt-1 bg-white">
         <option value="">เลือกประเภทการลา</option>
-        <option value=1>ลาพักร้อน</option>
-        <option value=2>ลาป่วย</option>
-        <option value=3>ลากิจ</option>
+        <option *ngFor="let leaveType of leaveTypes" [value]="leaveType.id">
+          {{ leaveType.leaveTypeName |leaveType}}
+        </option>
       </select>
     </div>
 

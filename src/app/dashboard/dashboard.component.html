@@ -5,7 +5,7 @@
       <mat-icon class="text-blue-500">event</mat-icon>
       <div class="ml-3">
         <p class="text-sm text-gray-500">วันลาคงเหลือ</p>
-        <p class="text-2xl font-bold">10 วัน</p>
+        <p class="text-2xl font-bold">{{ getRemainingLeaveDays() }} วัน</p>
       </div>
     </div>
   </div>
@@ -16,7 +16,7 @@
       <mat-icon class="text-green-500">pending_actions</mat-icon>
       <div class="ml-3">
         <p class="text-sm text-gray-500">ลาที่รออนุมัติ</p>
-        <p class="text-2xl font-bold">{{ leaveRequests.length }} รายการ</p>
+        <p class="text-2xl font-bold">{{ leaveRequests.length}} รายการ</p>
       </div>
     </div>
   </div>
@@ -26,7 +26,7 @@
       <mat-icon class="text-purple-500">article</mat-icon>
       <div class="ml-3">
         <p class="text-sm text-gray-500">ลาทั้งหมดปีนี้</p>
-        <p class="text-2xl font-bold">15 วัน</p>
+        <p class="text-2xl font-bold">{{ leaveBalances[0]?.leaveYear }} วัน</p>
       </div>
     </div>
   </div>

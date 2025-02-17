@@ -41,10 +41,14 @@ export class DashboardComponent implements OnInit {
 
   constructor(public leaveService: LeaveService) {}
    GetUrl = 'http://localhost:8080/api/leave-requests';
+   GetBalanceUrl = 'http://localhost:8080/api/leave-balance';
   leaveRequests: any[] = [];
+  leaveBalances: any[] = [];
+  totalLeaveTaken: number = 0;
 
   ngOnInit(): void {
     this.fetchLeaveRequests();
+    this.fetchLeaveBalances();
   }
 
   async fetchLeaveRequests(): Promise<void> {
@@ -52,10 +56,38 @@ export class DashboardComponent implements OnInit {
       const response = await axios.get(`${this.GetUrl}`);
       this.leaveRequests = response.data;
       console.log('API:', this.leaveRequests);
+      this.calculateTotalLeaveTaken();
     } catch (error) {
       console.error('Error fetching leave requests:', error);
     }
   }
+
+  calculateTotalLeaveTaken(): void {
+    this.totalLeaveTaken = 0;
+    for (let i = 0; i < this.leaveRequests.length; i++) {
+      const leaveRequest = this.leaveRequests[i];
+      const days = this.leaveService.calculateDays(leaveRequest.startDate, leaveRequest.endDate);
+      this.totalLeaveTaken += days;
+    }
+  }
+  
+
+  getRemainingLeaveDays(): number {
+    const remainingDays = this.leaveBalances[0]?.remainingDays ?? 0;
+    return remainingDays - this.totalLeaveTaken;
+  }
+
+  async fetchLeaveBalances(): Promise<void> {
+    try {
+      const response = await axios.get(`${this.GetBalanceUrl}`);
+      this.leaveBalances = response.data;
+      console.log('Balance API:', this.leaveBalances);
+    } catch (error) {
+      console.error('Error fetching leave requests:', error);
+    }
+  }
+
+  
 
   
 }
