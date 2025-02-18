@@ -16,7 +16,7 @@
       <mat-icon class="text-green-500">pending_actions</mat-icon>
       <div class="ml-3">
         <p class="text-sm text-gray-500">ลาที่รออนุมัติ</p>
-        <p class="text-2xl font-bold">{{ leaveRequests.length}} รายการ</p>
+        <p class="text-2xl font-bold">{{ getPendingLeaveCount()}} รายการ</p>
       </div>
     </div>
   </div>
@@ -46,19 +46,19 @@
       <tbody >
         <tr *ngFor="let leaveRequest of leaveRequests">
           <td class="p-2 border border-gray-200">
-            <ng-container 
-              *ngIf="
-                leaveRequest.startDate === leaveRequest.endDate;
-                else rangeDate
-              "
-            >
-              {{ leaveRequest.startDate | date : "d MMM yyyy" }}
-            </ng-container>
-            <ng-template #rangeDate>
-              {{ leaveRequest.startDate?.toString() | date : "d" }}-{{
-                leaveRequest.endDate?.toString() | date : "d MMM yyyy" |thaiMonth
-              }}
-            </ng-template>
+              <ng-container 
+                *ngIf="
+                  leaveRequest.startDate === leaveRequest.endDate;
+                  else rangeDate
+                "
+              >
+                {{ leaveRequest.startDate | date : "d MMM yyyy" | thaiMonth}}
+              </ng-container>
+              <ng-template #rangeDate>
+                {{ leaveRequest.startDate?.toString() | date : "d" }}-{{
+                  leaveRequest.endDate?.toString() | date : "d MMM yyyy" |thaiMonth
+                }}
+              </ng-template>
           </td>
           <td class="p-2 border border-gray-200">
             {{ leaveRequest.leaveType?.leaveTypeName |leaveType}}

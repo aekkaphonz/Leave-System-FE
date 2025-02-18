@@ -202,11 +202,11 @@ export class LeaveHistoryComponent implements OnInit {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
       this.leaveRequests.map((leave) => ({
         'ชื่อ-นามสกุล': leave.user.username,
-        แผนก: leave.user.department,
-        ลาป่วย: leave.sickLeave,
-        ลาพักร้อน: leave.annualLeave,
-        ลากิจ: leave.personalLeave,
-        รวม: leave.totalLeave,
+        'แผนก': leave.user.department,
+        'ลาป่วย': leave.sickLeave,
+        'ลาพักร้อน': leave.annualLeave,
+        'ลากิจ': leave.personalLeave,
+        'รวม': leave.totalLeave,
       }))
     );
 

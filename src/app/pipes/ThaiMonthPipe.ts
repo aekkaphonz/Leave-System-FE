@@ -14,6 +14,7 @@ export class ThaiMonthPipe implements PipeTransform {
   transform(value: string | null | undefined): string {
     if (!value) return '-'; 
 
+    
     const dateParts = value.split(' '); 
     if (dateParts.length < 3) return value;
 

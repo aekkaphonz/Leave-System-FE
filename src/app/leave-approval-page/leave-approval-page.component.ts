@@ -49,7 +49,7 @@ export class LeaveApprovalPageComponent implements OnInit {
     try {
       const response = await axios.get(`${this.GetUrl}`);
       this.leaveRequests = response.data;
-      console.log('API:', this.leaveRequests);
+      console.log('Requests API:', this.leaveRequests);
     } catch (error) {
       console.error('Error fetching leave requests:', error);
     }

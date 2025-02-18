@@ -63,7 +63,7 @@ export class LeaveRequestFormComponent implements OnInit{
 
   async submitLeaveRequest() {
     const leaveRequest = {
-      user: { id: 2 },
+      user: { id: 1 },
       leaveType: { id: this.leaveRequest.leaveType },
       startDate: this.formatDate(this.leaveRequest.startDate),
       endDate: this.formatDate(this.leaveRequest.endDate),

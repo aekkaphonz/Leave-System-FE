@@ -4,12 +4,13 @@ import { LeaveRequestFormComponent } from "./leave-request-form/leave-request-fo
 import { LeaveApprovalPageComponent } from "./leave-approval-page/leave-approval-page.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 import { NavbarComponent } from './navbar/navbar.component';
+import { CalendarComponent } from "./calendar/calendar.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet,NavbarComponent],
+  imports: [RouterOutlet, NavbarComponent, CalendarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
