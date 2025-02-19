@@ -53,11 +53,11 @@ export class LeaveRequestFormComponent implements OnInit{
 
   async fetchLeaveTypes(): Promise<void> {
     try {
-      const response = await axios.get(`${this.GetLeaveTypes}`);
-      this.leaveTypes = response.data;
+      const response = await axios.get(this.GetLeaveTypes);
+      this.leaveTypes = response.data.data; 
       console.log('leaveTypes:', this.leaveTypes);
     } catch (error) {
-      console.error('Error fetching leave requests:', error);
+      console.error('Error fetching leave types:', error);
     }
   }
 
