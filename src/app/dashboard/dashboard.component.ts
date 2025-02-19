@@ -127,5 +127,4 @@ export class DashboardComponent implements OnInit {
     return this.leaveRequests.filter(request => request.status === 'PENDING').length;
   }
   
-  
 }
